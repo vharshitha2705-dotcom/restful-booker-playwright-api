@@ -4,7 +4,7 @@ API test automation framework for the [Restful-Booker](https://restful-booker.he
 
 ## Highlights
 
-- 17 automated API tests so far, each named with a test case ID (for example `TC_BOOKING_GET_001`)
+- 32 automated API tests so far, each named with a test case ID (for example `TC_BOOKING_GET_001`)
 - API client layer (one class per resource), the API equivalent of Page Objects
 - Custom fixtures that inject the API clients into tests
 - Every booking created by a test is deleted automatically afterwards, so the shared server stays clean
@@ -21,9 +21,9 @@ API test automation framework for the [Restful-Booker](https://restful-booker.he
 | `/booking` | GET | Booking list (with filters) | Covered |
 | `/booking/{id}` | GET | Booking get | Covered |
 | `/booking` | POST | Booking create | Covered |
-| `/booking/{id}` | PUT | Booking update | In progress |
-| `/booking/{id}` | PATCH | Booking partial update | In progress |
-| `/booking/{id}` | DELETE | Booking delete | Used for cleanup, dedicated tests in progress |
+| `/booking/{id}` | PUT | Booking update | Covered |
+| `/booking/{id}` | PATCH | Booking partial update | Covered |
+| `/booking/{id}` | DELETE | Booking delete | Covered |
 
 ## Known API Defects
 
@@ -34,6 +34,9 @@ Restful-Booker is a practice API that contains deliberate bugs. These tests asse
 | TC_BOOKING_CREATE_003 | POST /booking | 500 when a required field is missing | 400 Bad Request |
 | TC_BOOKING_CREATE_004 | POST /booking | 200, invalid date is stored as `0NaN-aN-aN` | 400 Bad Request |
 | TC_BOOKING_CREATE_005 | POST /booking | 500 for an empty body | 400 Bad Request |
+| TC_BOOKING_UPDATE_004 | PUT /booking/{id} | 405 Method Not Allowed for a booking that does not exist | 404 Not Found |
+| TC_BOOKING_PATCH_005 | PATCH /booking/{id} | 405 Method Not Allowed for a booking that does not exist | 404 Not Found |
+| TC_BOOKING_DELETE_004 | DELETE /booking/{id} | 405 Method Not Allowed for a booking that does not exist | 404 Not Found |
 
 ## Tech Stack
 
