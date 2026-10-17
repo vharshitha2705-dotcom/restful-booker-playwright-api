@@ -4,6 +4,10 @@ class BookingApi {
     this.createdIds = [];
   }
 
+  authHeaders(token) {
+    return token ? { Cookie: `token=${token}` } : {};
+  }
+
   async getBookingIds(filters = {}) {
     return this.request.get('/booking', { params: filters });
   }
@@ -25,10 +29,28 @@ class BookingApi {
     return response;
   }
 
-  async deleteBooking(id, token) {
-    return this.request.delete(`/booking/${id}`, {
-      headers: { Cookie: `token=${token}` },
+  async updateBooking(id, payload, token) {
+    return this.request.put(`/booking/${id}`, {
+      data: payload,
+      headers: this.authHeaders(token),
     });
+  }
+
+  async partialUpdateBooking(id, payload, token) {
+    return this.request.patch(`/booking/${id}`, {
+      data: payload,
+      headers: this.authHeaders(token),
+    });
+  }
+
+  async deleteBooking(id, token) {
+    const response = await this.request.delete(`/booking/${id}`, {
+      headers: this.authHeaders(token),
+    });
+    if (response.status() === 201) {
+      this.createdIds = this.createdIds.filter(existing => existing !== id);
+    }
+    return response;
   }
 }
 
